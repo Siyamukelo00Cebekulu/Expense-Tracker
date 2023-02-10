@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{/layout.html}">
+<head></head>
+<body>
+<div layout:fragment="contents">
+    <h2>People that owe you</h2>
+    <p id="no_payment_requests_sent" th:if="${#lists.isEmpty(payment_requests_sent)}">Nobody owes you anything!</p>
+    <div id="payment_requests_sent" th:unless="${#lists.isEmpty(payment_requests_sent)}">
+        <table>
+            <tr>
+                <th>Who</th>
+                <th>What</th>
+                <th>Due (in days)</th>
+                <th>How much</th>
+            </tr>
+            <tr th:block th:each="payment_request_sent: ${payment_requests_sent}">
+                <td><p><span th:text="${payment_request_sent.personWhoShouldPayBack.email}">No one</span></p></td>
+                <td><p><span th:text="${payment_request_sent.expense.description}">Lunch</span></p></td>
+                <td><p><span th:text="${payment_request_sent.daysLeftToPay()}">Lunch</span></p></td>
+                <td><p><span th:text="${payment_request_sent.getAmountToPay()}">ZAR 120</span></p></td>
+            </tr>
+            <tfoot>
+            <td>Total Unpaid</td>
+            <td></td>
+            <td></td>
+            <td th:text="${total}" id="grand_total"></td>
+            </tfoot>
+
+        </table>
+    </div>
+</div>
+</body>
+
+</html>
